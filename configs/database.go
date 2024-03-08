@@ -20,7 +20,7 @@ type configDB struct {
 
 var DB *gorm.DB
 
-func InitDB() {
+func InitDB() *gorm.DB {
 	c := &configDB{
 		Host:         os.Getenv("DB_HOST"),
 		Username:     os.Getenv("DB_USERNAME"),
@@ -44,5 +44,6 @@ func InitDB() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(DB)
+	return DB
+
 }

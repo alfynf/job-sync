@@ -14,6 +14,7 @@ func New() *gin.Engine {
 	userRoute := v1Route.Group("/users")
 
 	userRoute.POST("/", controllers.CreateUserController)
+	userRoute.POST("/login", controllers.LoginUserController)
 
 	return r
 }

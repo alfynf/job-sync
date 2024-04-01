@@ -14,7 +14,7 @@ func ResponseBadRequest(msg string, err error) map[string]interface{} {
 
 	res := gin.H{
 		"code":    http.StatusBadRequest,
-		"message": "Bad Request",
+		"message": msg,
 		"error":   fmt.Sprintf("%v", err),
 	}
 	return res

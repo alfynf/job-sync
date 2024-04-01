@@ -26,7 +26,7 @@ func LoginUserController(c *gin.Context) {
 		return
 	}
 
-	data, err := q.GetByEmail(body.Email)
+	data, err := q.GetUserByEmail(body.Email)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, utils.ResponseBadRequest("Failed get user", err))
 		return

@@ -81,7 +81,7 @@ func CreateUserController(c *gin.Context) {
 		user.ProfilePicture = &profilePictureName
 	}
 
-	err = q.Create(user)
+	err = q.CreateUser(user)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, utils.ResponseBadRequest("Failed to save data", err))
 		return

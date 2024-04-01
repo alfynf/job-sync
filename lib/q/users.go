@@ -6,7 +6,7 @@ import (
 	"jobsync-be/models"
 )
 
-func Create(user models.User) error {
+func CreateUser(user models.User) error {
 	res := configs.DB.Create(&user)
 	if res.Error != nil {
 		return fmt.Errorf("failed to create on database: %v", res.Error)
@@ -14,7 +14,7 @@ func Create(user models.User) error {
 	return nil
 }
 
-func GetByEmail(email string) (*models.User, error) {
+func GetUserByEmail(email string) (*models.User, error) {
 	var data models.User
 	res := configs.DB.Where("email = ?", email).First(&data)
 	if res.Error != nil {

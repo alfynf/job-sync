@@ -4,9 +4,11 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type User struct {
+	gorm.Model
 	UUID           uuid.UUID `gorm:"primaryKey;type:uuid;default:gen_random_uuid()"` // Standard field for the primary key
 	FirstName      string    `gorm:"size:50;not null"`
 	LastName       string    `gorm:"size:50;not null"`

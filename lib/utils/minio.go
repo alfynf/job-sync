@@ -2,7 +2,6 @@ package utils
 
 import (
 	"context"
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -45,8 +44,6 @@ func (cfg *MinioConfig) Connect() *minio.Client {
 		log.Fatalln(err)
 	}
 
-	fmt.Println(cfg.Endpoint)
-
 	return minioClient
 }
 
@@ -58,12 +55,10 @@ func (cfg *MinioConfig) Store(objectName string) error {
 	contentType := "image/jpeg"
 
 	// Upload the test file with FPutObject
-	info, err := m.FPutObject(ctx, cfg.BucketName, objectName, filePath, minio.PutObjectOptions{ContentType: contentType})
+	_, err := m.FPutObject(ctx, cfg.BucketName, objectName, filePath, minio.PutObjectOptions{ContentType: contentType})
 	if err != nil {
 		return err
 	}
-
-	fmt.Println(info)
 
 	log.Printf("Successfully uploaded %s", objectName)
 	return nil

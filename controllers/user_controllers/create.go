@@ -1,7 +1,6 @@
-package controllers
+package user_controllers
 
 import (
-	"fmt"
 	"io"
 	"jobsync-be/lib/q"
 	"jobsync-be/lib/utils"
@@ -13,14 +12,26 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-func CreateUserController(c *gin.Context) {
-	body := models.CreateUser{}
+type CreateUser struct {
+	FirstName       string  `form:"first_name" json:"first_name" validate:"required,max=50"`
+	LastName        string  `form:"last_name" json:"last_name" validate:"required,max=50"`
+	Username        string  `form:"username" json:"username" validate:"required,max=255"`
+	Email           string  `form:"email" json:"email" validate:"required,email"`
+	Password        string  `form:"password" json:"password" validate:"required,min=8"`
+	ConfirmPassword string  `form:"confirm_password" json:"confirm_password" validate:"required,eqfield=Password"`
+	Birthdate       string  `form:"birthdate" json:"birthdate" validate:"required"`
+	Gender          *int    `form:"gender" json:"gender" validate:"required"`
+	Phone           *string `form:"phone" json:"phone"`
+	ProfilePicture  *string `form:"profile_picture" json:"profile_picture"`
+}
+
+func Create(c *gin.Context) {
+	body := CreateUser{}
 	c.ShouldBind(&body)
 
 	validate := validator.New(validator.WithRequiredStructEnabled())
 	err := validate.Struct(body)
 	if err != nil {
-		fmt.Println(err)
 		c.JSON(http.StatusBadRequest, utils.ResponseBadRequest("Validation errors", err))
 		return
 	}

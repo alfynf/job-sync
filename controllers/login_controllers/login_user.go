@@ -1,4 +1,4 @@
-package controllers
+package login_controllers
 
 import (
 	"jobsync-be/lib/q"
@@ -15,7 +15,7 @@ type LoginBody struct {
 	Password string `form:"password" json:"password" validate:"required,min=8"`
 }
 
-func LoginUserController(c *gin.Context) {
+func LoginUser(c *gin.Context) {
 	body := LoginBody{}
 	c.ShouldBind(&body)
 

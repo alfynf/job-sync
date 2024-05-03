@@ -4,11 +4,9 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"gorm.io/gorm"
 )
 
 type Employee struct {
-	gorm.Model
 	UUID           uuid.UUID `gorm:"primaryKey;type:uuid;default:gen_random_uuid()"` // Standard field for the primary key
 	FirstName      string    `gorm:"size:50;not null"`
 	LastName       string    `gorm:"size:50;not null"`
@@ -23,9 +21,4 @@ type Employee struct {
 	CreatedAt      time.Time
 	UpdatedAt      time.Time
 	DeletedAt      *time.Time
-}
-
-type CreateEmployee struct {
-	FirstName string `form:"first_name" json:"first_name" validate:"required,max=50"`
-	LastName  string `form:"last_name" json:"last_name" validate:"required,max=50"`
 }

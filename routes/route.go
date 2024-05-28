@@ -21,6 +21,7 @@ func New() *gin.Engine {
 
 	employeeRoute := v1Route.Group("/employees")
 	employeeRoute.POST("/", employee_controllers.Create)
+	employeeRoute.POST("/login", login_controllers.LoginEmployee)
 
 	return r
 }

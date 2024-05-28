@@ -13,3 +13,12 @@ func CreateEmployee(employee models.Employee) error {
 	}
 	return nil
 }
+
+func GetEmployeeByEmail(email string) (*models.Employee, error) {
+	var data models.Employee
+	res := configs.DB.Where("email = ?", email).First(&data)
+	if res.Error != nil {
+		return nil, fmt.Errorf("failed to get from database: %v", res.Error)
+	}
+	return &data, nil
+}

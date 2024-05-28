@@ -13,3 +13,21 @@ func CreateCompany(company models.Company) error {
 	}
 	return nil
 }
+
+func GetCompanyByUUID(uuid string) (*models.Company, error) {
+	var data models.Company
+	res := configs.DB.Where("uuid = ?", uuid).First(&data)
+	if res.Error != nil {
+		return nil, fmt.Errorf("failed to get from database: %v", res.Error)
+	}
+	return &data, nil
+}
+
+func GetCompanyByName(name string) (*models.Company, error) {
+	var data models.Company
+	res := configs.DB.Where("name = ?", name).First(&data)
+	if res.Error != nil {
+		return nil, fmt.Errorf("failed to get from database: %v", res.Error)
+	}
+	return &data, nil
+}

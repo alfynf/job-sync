@@ -3,6 +3,7 @@ package login_controllers
 import (
 	"jobsync-be/lib/q"
 	"jobsync-be/lib/utils"
+	"jobsync-be/lib/utils/responses"
 	"net/http"
 	"os"
 
@@ -22,24 +23,24 @@ func LoginUser(c *gin.Context) {
 	validate := validator.New(validator.WithRequiredStructEnabled())
 	err := validate.Struct(body)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, utils.ResponseBadRequest("Validation errors", err))
+		c.JSON(http.StatusBadRequest, responses.ResponseBadRequest("Validation errors", err))
 		return
 	}
 
 	data, err := q.GetUserByEmail(body.Email)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, utils.ResponseBadRequest("Failed get user", err))
+		c.JSON(http.StatusBadRequest, responses.ResponseBadRequest("Failed get user", err))
 		return
 	}
 
 	if data.Password != body.Password {
-		c.JSON(http.StatusBadRequest, utils.ResponseBadRequest("Password or Email not match", err))
+		c.JSON(http.StatusBadRequest, responses.ResponseBadRequest("Password or Email not match", err))
 		return
 	}
 
 	token, err := utils.GenerateJwtToken(data.UUID.String())
 	if err != nil {
-		c.JSON(http.StatusBadRequest, utils.ResponseBadRequest("Error generate token", err))
+		c.JSON(http.StatusBadRequest, responses.ResponseBadRequest("Error generate token", err))
 		return
 	}
 

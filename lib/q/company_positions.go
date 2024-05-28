@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"jobsync-be/configs"
 	"jobsync-be/models"
+
+	"github.com/google/uuid"
 )
 
 func CreateCompanyPosition(company_position models.CompanyPosition) error {
@@ -14,9 +16,18 @@ func CreateCompanyPosition(company_position models.CompanyPosition) error {
 	return nil
 }
 
-func GetCompanyByUUID(uuid string) (*models.Company, error) {
-	var data models.Company
+func GetCompanyPositionByUUID(uuid string) (*models.CompanyPosition, error) {
+	var data models.CompanyPosition
 	res := configs.DB.Where("uuid = ?", uuid).First(&data)
+	if res.Error != nil {
+		return nil, fmt.Errorf("failed to get from database: %v", res.Error)
+	}
+	return &data, nil
+}
+
+func GetCompanyPositionByCompanyAndName(company_uuid uuid.UUID, name string) (*models.CompanyPosition, error) {
+	var data models.CompanyPosition
+	res := configs.DB.Where("company_uuid = ? AND name = ?", company_uuid, name).First(&data)
 	if res.Error != nil {
 		return nil, fmt.Errorf("failed to get from database: %v", res.Error)
 	}

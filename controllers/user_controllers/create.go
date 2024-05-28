@@ -4,6 +4,7 @@ import (
 	"io"
 	"jobsync-be/lib/q"
 	"jobsync-be/lib/utils"
+	"jobsync-be/lib/utils/responses"
 	"jobsync-be/models"
 	"net/http"
 	"os"
@@ -32,7 +33,7 @@ func Create(c *gin.Context) {
 	validate := validator.New(validator.WithRequiredStructEnabled())
 	err := validate.Struct(body)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, utils.ResponseBadRequest("Validation errors", err))
+		c.JSON(http.StatusBadRequest, responses.ResponseBadRequest("Validation errors", err))
 		return
 	}
 
@@ -49,7 +50,7 @@ func Create(c *gin.Context) {
 
 	form, err := c.MultipartForm()
 	if err != nil {
-		c.JSON(http.StatusBadRequest, utils.ResponseBadRequest("Failed get multipart form", err))
+		c.JSON(http.StatusBadRequest, responses.ResponseBadRequest("Failed get multipart form", err))
 		return
 	}
 
@@ -61,7 +62,7 @@ func Create(c *gin.Context) {
 			mConfig := utils.Init()
 			src, err := file.Open()
 			if err != nil {
-				c.JSON(http.StatusBadRequest, utils.ResponseBadRequest("Failed to open file", err))
+				c.JSON(http.StatusBadRequest, responses.ResponseBadRequest("Failed to open file", err))
 				return
 			}
 
@@ -70,22 +71,22 @@ func Create(c *gin.Context) {
 
 			temp, err := os.Create(profilePictureName)
 			if err != nil {
-				c.JSON(http.StatusBadRequest, utils.ResponseBadRequest("Failed to create temporary file", err))
+				c.JSON(http.StatusBadRequest, responses.ResponseBadRequest("Failed to create temporary file", err))
 			}
 			defer os.Remove(temp.Name())
 
 			if _, err := io.Copy(temp, src); err != nil {
-				c.JSON(http.StatusBadRequest, utils.ResponseBadRequest("Failed to copy file", err))
+				c.JSON(http.StatusBadRequest, responses.ResponseBadRequest("Failed to copy file", err))
 				return
 			}
 			if err := temp.Close(); err != nil {
-				c.JSON(http.StatusBadRequest, utils.ResponseBadRequest("Failed to close file", err))
+				c.JSON(http.StatusBadRequest, responses.ResponseBadRequest("Failed to close file", err))
 				return
 			}
 
 			err = mConfig.Store(temp.Name())
 			if err != nil {
-				c.JSON(http.StatusBadRequest, utils.ResponseBadRequest("Failed to store file", err))
+				c.JSON(http.StatusBadRequest, responses.ResponseBadRequest("Failed to store file", err))
 				return
 			}
 		}
@@ -94,7 +95,7 @@ func Create(c *gin.Context) {
 
 	err = q.CreateUser(user)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, utils.ResponseBadRequest("Failed to save data", err))
+		c.JSON(http.StatusBadRequest, responses.ResponseBadRequest("Failed to save data", err))
 		return
 	}
 

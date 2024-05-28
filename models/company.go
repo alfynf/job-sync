@@ -8,6 +8,7 @@ import (
 
 type Company struct {
 	UUID        uuid.UUID `gorm:"primaryKey;type:uuid;default:gen_random_uuid()"` // Standard field for the primary key
+	Name        string    `gorm:"not null"`
 	EstablishAt string    `gorm:"size:4;not null"`
 	Location    string    `gorm:"size:50;not null"`
 	Description string    `gorm:"not null"`

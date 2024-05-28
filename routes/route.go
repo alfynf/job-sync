@@ -2,6 +2,7 @@ package routes
 
 import (
 	"jobsync-be/controllers"
+	"jobsync-be/controllers/company_controllers"
 	"jobsync-be/controllers/employee_controllers"
 	"jobsync-be/controllers/login_controllers"
 	"jobsync-be/controllers/user_controllers"
@@ -22,6 +23,9 @@ func New() *gin.Engine {
 	employeeRoute := v1Route.Group("/employees")
 	employeeRoute.POST("/", employee_controllers.Create)
 	employeeRoute.POST("/login", login_controllers.LoginEmployee)
+
+	companyRoute := v1Route.Group("/companies/:company_uuid")
+	companyRoute.GET("/", company_controllers.Detail)
 
 	return r
 }

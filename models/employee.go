@@ -13,7 +13,7 @@ type Employee struct {
 	Username       string    `gorm:"unique;size:255;not null"`
 	Email          string    `gorm:"unique;size:255;not null"`
 	Password       string    `gorm:"not null"`
-	CompanyUUID    string
+	CompanyUUID    uuid.UUID
 	Company        Company `gorm:"foreignKey:CompanyUUID;constraint:OnUpdate:SET NULL,OnDelete:SET NULL;"`
 	PositionUUID   uuid.UUID
 	Position       CompanyPosition `gorm:"foreignKey:PositionUUID;constraint:OnUpdate:SET NULL,OnDelete:SET NULL;"`

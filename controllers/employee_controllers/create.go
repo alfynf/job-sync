@@ -11,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+	"github.com/google/uuid"
 )
 
 type CreateEmployee struct {
@@ -124,7 +125,8 @@ func Create(c *gin.Context) {
 	}
 
 	if body.CompanyUUID != nil && *body.CompanyUUID != "" {
-		user.CompanyUUID = *body.CompanyUUID
+		companyUUID, _ := uuid.Parse(*body.CompanyUUID)
+		user.CompanyUUID = companyUUID
 	}
 
 	var profilePictureName string
@@ -201,7 +203,7 @@ func Create(c *gin.Context) {
 			return
 		}
 		user.PositionUUID = data.UUID
-		user.CompanyUUID = company.UUID.String()
+		user.CompanyUUID = company.UUID
 	}
 
 	err = q.CreateEmployee(user)

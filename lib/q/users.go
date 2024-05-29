@@ -42,3 +42,11 @@ func UpdateUser(user *models.User) error {
 	}
 	return nil
 }
+
+func DeleteUser(user *models.User) error {
+	res := configs.DB.Delete(user)
+	if res.Error != nil {
+		return fmt.Errorf("failed to create on database: %v", res.Error)
+	}
+	return nil
+}

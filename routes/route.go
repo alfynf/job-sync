@@ -42,6 +42,7 @@ func New() *gin.Engine {
 	authorizedUserRoute.Use(utils.CheckJWT())
 	authorizedUserRoute.GET("/my-profile", user_controllers.GetDetail)
 	authorizedUserRoute.PUT("/my-profile", user_controllers.Update)
+	authorizedUserRoute.DELETE("/my-profile", user_controllers.Delete)
 
 	return r
 }

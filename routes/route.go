@@ -38,5 +38,9 @@ func New() *gin.Engine {
 	companyRoute.GET("/:company_uuid", company_controllers.Detail)
 	companyRoute.PUT("/:company_uuid", company_controllers.Update)
 
+	authorizedUserRoute := v1AdminRoute.Group("/users")
+	authorizedUserRoute.Use(utils.CheckJWT())
+	authorizedUserRoute.GET("/my-profile", user_controllers.GetDetail)
+
 	return r
 }

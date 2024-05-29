@@ -61,24 +61,25 @@ func CheckJWT() gin.HandlerFunc {
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, responses.ResponseUnauthorized("", fmt.Errorf("Failed parse token")))
 		} else if claims, ok := token.Claims.(*MyClaims); ok {
-			fmt.Println(claims)
 			if time.Now().Compare(claims.ExpiredAt) == 1 {
 				c.JSON(http.StatusUnauthorized, responses.ResponseUnauthorized("", fmt.Errorf("Token Expired")))
 			}
 			if claims.UserType == 1 {
-				_, err := q.GetUserByUUID(claims.UserUUID)
+				user, err := q.GetUserByUUID(claims.UserUUID)
 				if err != nil {
 					c.JSON(http.StatusUnauthorized, responses.ResponseUnauthorized("", fmt.Errorf("User not found")))
 				}
+				c.Set("user-uuid", user.UUID.String())
 			} else if claims.UserType == 2 {
-				_, err := q.GetEmployeeByEmail(claims.UserUUID)
+				user, err := q.GetEmployeeByUUID(claims.UserUUID)
 				if err != nil {
 					c.JSON(http.StatusUnauthorized, responses.ResponseUnauthorized("", fmt.Errorf("User not found")))
 				}
+				c.Set("user-uuid", user.UUID.String())
 			}
-
 		} else {
 			c.JSON(http.StatusUnauthorized, responses.ResponseUnauthorized("", fmt.Errorf("Unrecognizable claim, unable to proceed")))
 		}
+		c.Next()
 	}
 }

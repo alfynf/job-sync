@@ -25,7 +25,14 @@ func New() *gin.Engine {
 	employeeRoute.POST("/", employee_controllers.Create)
 	employeeRoute.POST("/login", login_controllers.LoginEmployee)
 
-	companyRoute := v1Route.Group("/companies")
+	adminRoute := r.Group("/api/admin")
+	v1AdminRoute := adminRoute.Group("/v1")
+
+	authorizedEmployeeRoute := v1AdminRoute.Group("/employees")
+	authorizedEmployeeRoute.Use(utils.CheckJWT())
+	authorizedEmployeeRoute.GET("/my-profile", employee_controllers.GetDetail)
+
+	companyRoute := v1AdminRoute.Group("/companies")
 	companyRoute.Use(utils.CheckJWT())
 	companyRoute.GET("/:company_uuid", company_controllers.Detail)
 	companyRoute.PUT("/:company_uuid", company_controllers.Update)

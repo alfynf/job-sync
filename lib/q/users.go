@@ -34,3 +34,11 @@ func GetUserByUUID(uuid string) (*models.User, error) {
 	}
 	return &data, nil
 }
+
+func UpdateUser(user *models.User) error {
+	res := configs.DB.Save(user)
+	if res.Error != nil {
+		return fmt.Errorf("failed to create on database: %v", res.Error)
+	}
+	return nil
+}

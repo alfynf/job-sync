@@ -2,6 +2,7 @@ package company_controllers
 
 import (
 	"jobsync-be/lib/q"
+	"jobsync-be/lib/utils"
 	"jobsync-be/lib/utils/responses"
 	"net/http"
 
@@ -58,16 +59,27 @@ func Detail(c *gin.Context) {
 	var listEmployees []resultEmployee
 	for _, employee := range company.Employees {
 		v := resultEmployee{
-			UUID:           employee.UUID.String(),
-			Name:           employee.FirstName + employee.LastName,
-			Position:       employee.Position.Name,
-			ProfilePicture: *employee.ProfilePicture,
+			UUID:     employee.UUID.String(),
+			Name:     employee.FirstName + employee.LastName,
+			Position: employee.Position.Name,
+		}
+
+		if employee.ProfilePicture != nil {
+			mConfig := utils.Init()
+			employeeLogoUrl := mConfig.GetPresignedUrl(*employee.ProfilePicture)
+			v.ProfilePicture = employeeLogoUrl
 		}
 
 		listEmployees = append(listEmployees, v)
 	}
 
 	res.Employees = listEmployees
+
+	if company.Logo != nil {
+		mConfig := utils.Init()
+		companyLogoUrl := mConfig.GetPresignedUrl(*company.Logo)
+		res.Logo = companyLogoUrl
+	}
 
 	// bikin get url dari minio
 

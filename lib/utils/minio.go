@@ -2,9 +2,12 @@ package utils
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"log"
+	"net/url"
 	"os"
+	"time"
 
 	minio "github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
@@ -81,4 +84,20 @@ func (cfg *MinioConfig) Get(objectName string) {
 	if _, err = io.Copy(localFile, object); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func (cfg *MinioConfig) GetPresignedUrl(objectName string) string {
+	m := cfg.Connect()
+	// Set request parameters for content-disposition.
+	reqParams := make(url.Values)
+	reqParams.Set("response-content-disposition", fmt.Sprintf("attachment; filename=\"test.jpg\""))
+
+	// Generates a presigned url which expires in a day.
+	presignedURL, err := m.PresignedGetObject(context.Background(), cfg.BucketName, objectName, time.Second*24*60*60, reqParams)
+	if err != nil {
+		log.Fatal(err)
+		return ""
+	}
+	fmt.Println("Successfully generated presigned URL", presignedURL)
+	return presignedURL.String()
 }

@@ -56,3 +56,20 @@ func ResponseCreated(msg string) map[string]interface{} {
 	}
 	return res
 }
+
+func ResponseUnauthorized(msg string, err error) map[string]interface{} {
+	if msg == "" {
+		msg = "Authorization Failed"
+	}
+
+	if err == nil {
+		err = fmt.Errorf("Authorization Failed")
+	}
+
+	res := gin.H{
+		"code":    http.StatusUnauthorized,
+		"message": msg,
+		"error":   fmt.Sprintf("%v", err),
+	}
+	return res
+}

@@ -25,3 +25,12 @@ func GetUserByEmail(email string) (*models.User, error) {
 	}
 	return &data, nil
 }
+
+func GetUserByUUID(uuid string) (*models.User, error) {
+	var data models.User
+	res := configs.DB.Where("uuid = ?", uuid).First(&data)
+	if res.Error != nil {
+		return nil, fmt.Errorf("failed to get from database: %v", res.Error)
+	}
+	return &data, nil
+}

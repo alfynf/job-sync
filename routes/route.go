@@ -6,6 +6,7 @@ import (
 	"jobsync-be/controllers/employee_controllers"
 	"jobsync-be/controllers/login_controllers"
 	"jobsync-be/controllers/user_controllers"
+	"jobsync-be/lib/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,6 +26,7 @@ func New() *gin.Engine {
 	employeeRoute.POST("/login", login_controllers.LoginEmployee)
 
 	companyRoute := v1Route.Group("/companies/:company_uuid")
+	companyRoute.Use(utils.CheckJWT())
 	companyRoute.GET("/", company_controllers.Detail)
 
 	return r

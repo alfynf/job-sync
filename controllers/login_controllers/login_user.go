@@ -38,7 +38,7 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 
-	token, err := utils.GenerateJwtToken(data.UUID.String())
+	token, err := utils.GenerateJwtToken(data.UUID.String(), 1)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, responses.ResponseBadRequest("Error generate token", err))
 		return

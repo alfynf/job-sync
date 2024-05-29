@@ -31,6 +31,7 @@ func New() *gin.Engine {
 	authorizedEmployeeRoute := v1AdminRoute.Group("/employees")
 	authorizedEmployeeRoute.Use(utils.CheckJWT())
 	authorizedEmployeeRoute.GET("/my-profile", employee_controllers.GetDetail)
+	authorizedEmployeeRoute.PUT("/my-profile", employee_controllers.Update)
 
 	companyRoute := v1AdminRoute.Group("/companies")
 	companyRoute.Use(utils.CheckJWT())

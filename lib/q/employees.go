@@ -31,3 +31,11 @@ func GetEmployeeByUUID(uuid string) (*models.Employee, error) {
 	}
 	return &data, nil
 }
+
+func UpdateEmployee(employee *models.Employee) error {
+	res := configs.DB.Save(employee)
+	if res.Error != nil {
+		return fmt.Errorf("failed to create on database: %v", res.Error)
+	}
+	return nil
+}

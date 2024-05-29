@@ -40,7 +40,7 @@ func Detail(c *gin.Context) {
 
 	company, err := q.GetCompanyByUUID(uuid)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, responses.ResponseBadRequest("Failed to fetch data", err))
+		c.JSON(http.StatusNotFound, responses.ResponseBadRequest("Failed to fetch data", err))
 		return
 	}
 

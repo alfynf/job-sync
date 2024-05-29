@@ -31,3 +31,11 @@ func GetCompanyByName(name string) (*models.Company, error) {
 	}
 	return &data, nil
 }
+
+func UpdateCompany(company *models.Company) error {
+	res := configs.DB.Save(company)
+	if res.Error != nil {
+		return fmt.Errorf("failed to create on database: %v", res.Error)
+	}
+	return nil
+}

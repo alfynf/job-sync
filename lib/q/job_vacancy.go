@@ -23,13 +23,13 @@ func GetJobVacancyByUUID(uuid string) (*models.JobVacancy, error) {
 	return &data, nil
 }
 
-func GetJobVacancyByName(name string) (*models.JobVacancy, error) {
-	var data models.JobVacancy
-	res := configs.DB.Where("name = ?", name).First(&data)
+func GetJobVacancyByCompany(company_uuid string) ([]*models.JobVacancy, error) {
+	var data []*models.JobVacancy
+	res := configs.DB.Preload("Company").Where("company_uuid = ?", company_uuid).Find(&data)
 	if res.Error != nil {
 		return nil, fmt.Errorf("failed to get from database: %v", res.Error)
 	}
-	return &data, nil
+	return data, nil
 }
 
 func UpdateJobVacancy(jobVacancy *models.JobVacancy) error {

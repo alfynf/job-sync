@@ -34,12 +34,15 @@ func New() *gin.Engine {
 	authorizedEmployeeRoute.GET("/my-profile", employee_controllers.GetDetail)
 	authorizedEmployeeRoute.PUT("/my-profile", employee_controllers.Update)
 
-	companyRoute := v1AdminRoute.Group("/companies/:company_uuid")
-	companyRoute.Use(utils.CheckJWT())
-	companyRoute.GET("/", company_controllers.Detail)
-	companyRoute.PUT("/", company_controllers.Update)
-	companyRoute.POST("/job-vacancies", job_vacancy_controllers.Create)
-	companyRoute.GET("/job-vacancies/:job_vacancy_uuid", job_vacancy_controllers.GetDetail)
+	authorizedCompanyRoute := v1AdminRoute.Group("/companies/:company_uuid")
+	authorizedCompanyRoute.Use(utils.CheckJWT())
+	authorizedCompanyRoute.GET("/", company_controllers.Detail)
+	authorizedCompanyRoute.PUT("/", company_controllers.Update)
+
+	authorizedJobVacancyRoute := authorizedCompanyRoute.Group("/job-vacancies")
+	authorizedJobVacancyRoute.POST("/", job_vacancy_controllers.Create)
+	authorizedJobVacancyRoute.GET("/", job_vacancy_controllers.GetList)
+	authorizedJobVacancyRoute.GET("/:job_vacancy_uuid", job_vacancy_controllers.GetDetail)
 
 	authorizedUserRoute := v1AdminRoute.Group("/users")
 	authorizedUserRoute.Use(utils.CheckJWT())

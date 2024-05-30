@@ -44,6 +44,7 @@ func New() *gin.Engine {
 	authorizedJobVacancyRoute.GET("/", job_vacancy_controllers.GetList)
 	authorizedJobVacancyRoute.GET("/:job_vacancy_uuid", job_vacancy_controllers.GetDetail)
 	authorizedJobVacancyRoute.PUT("/:job_vacancy_uuid", job_vacancy_controllers.Update)
+	authorizedJobVacancyRoute.DELETE("/:job_vacancy_uuid", job_vacancy_controllers.Delete)
 
 	authorizedUserRoute := v1AdminRoute.Group("/users")
 	authorizedUserRoute.Use(utils.CheckJWT())

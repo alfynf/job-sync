@@ -39,3 +39,11 @@ func UpdateJobVacancy(jobVacancy *models.JobVacancy) error {
 	}
 	return nil
 }
+
+func DeleteJobVacancy(jobVacancy *models.JobVacancy) error {
+	res := configs.DB.Delete(jobVacancy)
+	if res.Error != nil {
+		return fmt.Errorf("failed to create on database: %v", res.Error)
+	}
+	return nil
+}

@@ -4,6 +4,7 @@ import (
 	"jobsync-be/controllers"
 	"jobsync-be/controllers/company_controllers"
 	"jobsync-be/controllers/employee_controllers"
+	"jobsync-be/controllers/job_vacancy_controllers"
 	"jobsync-be/controllers/login_controllers"
 	"jobsync-be/controllers/user_controllers"
 	"jobsync-be/lib/utils"
@@ -33,10 +34,11 @@ func New() *gin.Engine {
 	authorizedEmployeeRoute.GET("/my-profile", employee_controllers.GetDetail)
 	authorizedEmployeeRoute.PUT("/my-profile", employee_controllers.Update)
 
-	companyRoute := v1AdminRoute.Group("/companies")
+	companyRoute := v1AdminRoute.Group("/companies/:company_uuid")
 	companyRoute.Use(utils.CheckJWT())
-	companyRoute.GET("/:company_uuid", company_controllers.Detail)
-	companyRoute.PUT("/:company_uuid", company_controllers.Update)
+	companyRoute.GET("/", company_controllers.Detail)
+	companyRoute.PUT("/", company_controllers.Update)
+	companyRoute.POST("/job-vacancies", job_vacancy_controllers.Create)
 
 	authorizedUserRoute := v1AdminRoute.Group("/users")
 	authorizedUserRoute.Use(utils.CheckJWT())

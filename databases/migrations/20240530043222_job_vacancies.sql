@@ -10,17 +10,17 @@ CREATE TABLE IF NOT EXISTS job_vacancies (
     end_date varchar NOT NULL,
     status int NOT NULL,
     company_uuid uuid,
-    created_by uuid,
+    employee_uuid uuid,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP,
     CONSTRAINT fk_job_vacancy_company
         FOREIGN KEY (company_uuid)
         REFERENCES companies(uuid)
-        ON DELETE SET NULL ON UPDATE SET NULL,
+        ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_job_vacancy_created_by
-        FOREIGN KEY (created_by)
-        REFERENCES company_positions(uuid)
+        FOREIGN KEY (employee_uuid)
+        REFERENCES employees(uuid)
         ON DELETE SET NULL ON UPDATE SET NULL    
 );
 -- +goose StatementEnd

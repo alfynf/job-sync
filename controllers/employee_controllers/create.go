@@ -131,10 +131,10 @@ func Create(c *gin.Context) {
 
 	var profilePictureName string
 
-	pp_files := form.File["profile_picture"]
-	if pp_files != nil {
+	ppFiles := form.File["profile_picture"]
+	if ppFiles != nil {
 
-		for _, file := range pp_files {
+		for _, file := range ppFiles {
 			mConfig := utils.Init()
 			src, err := file.Open()
 			if err != nil {

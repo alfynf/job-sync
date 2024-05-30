@@ -25,7 +25,7 @@ func GetEmployeeByEmail(email string) (*models.Employee, error) {
 
 func GetEmployeeByUUID(uuid string) (*models.Employee, error) {
 	var data models.Employee
-	res := configs.DB.Preload("Position").Where("uuid = ?", uuid).First(&data)
+	res := configs.DB.Preload("Position").Preload("Company").Where("uuid = ?", uuid).First(&data)
 	if res.Error != nil {
 		return nil, fmt.Errorf("failed to get from database: %v", res.Error)
 	}

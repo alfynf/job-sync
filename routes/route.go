@@ -39,6 +39,7 @@ func New() *gin.Engine {
 	companyRoute.GET("/", company_controllers.Detail)
 	companyRoute.PUT("/", company_controllers.Update)
 	companyRoute.POST("/job-vacancies", job_vacancy_controllers.Create)
+	companyRoute.GET("/job-vacancies/:job_vacancy_uuid", job_vacancy_controllers.GetDetail)
 
 	authorizedUserRoute := v1AdminRoute.Group("/users")
 	authorizedUserRoute.Use(utils.CheckJWT())

@@ -16,7 +16,7 @@ func CreateJobVacancy(jobVacancy models.JobVacancy) error {
 
 func GetJobVacancyByUUID(uuid string) (*models.JobVacancy, error) {
 	var data models.JobVacancy
-	res := configs.DB.Preload("Employees.Position").Preload("Employees").Where("uuid = ?", uuid).First(&data)
+	res := configs.DB.Preload("Company").Where("uuid = ?", uuid).First(&data)
 	if res.Error != nil {
 		return nil, fmt.Errorf("failed to get from database: %v", res.Error)
 	}

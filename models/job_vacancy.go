@@ -18,7 +18,8 @@ type JobVacancy struct {
 	CompanyUUID  uuid.UUID
 	Company      Company `gorm:"foreignKey:CompanyUUID;constraint:OnUpdate:CASCADE,OnDelete:CASCADEs;"`
 	EmployeeUUID uuid.UUID
-	CreatedBy    Employee `gorm:"foreignKey:EmployeeUUID;constraint:OnUpdate:SET NULL,OnDelete:SET NULL;"`
+	Applicants   []Applicant `gorm:"foreignKey:JobVacancyUUID;constraint:OnUpdate:SET NULL,OnDelete:SET NULL;;"`
+	CreatedBy    Employee    `gorm:"foreignKey:EmployeeUUID;constraint:OnUpdate:SET NULL,OnDelete:SET NULL;"`
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 	DeletedAt    *time.Time

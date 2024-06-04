@@ -19,6 +19,7 @@ func New() *gin.Engine {
 	apiRoute := r.Group("/api")
 	v1Route := apiRoute.Group("/v1")
 
+	v1Route.GET("job-vacancies", api.GetList)
 	v1Route.GET("job-vacancies/:job_vacancy_uuid", api.GetJobDetail)
 
 	userRoute := v1Route.Group("/users")

@@ -1,4 +1,4 @@
-package job_vacancy_controllers
+package api
 
 import (
 	"jobsync-be/lib/q"
@@ -8,7 +8,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
 type listResult struct {
@@ -21,16 +20,16 @@ type listResult struct {
 	CompanyLogo string `json:"company_logo"`
 }
 
+type searchQuery struct {
+	Title    string `form:"title" json:"title"`
+	Location int    `form:"location" json:"location"`
+}
+
 func GetList(c *gin.Context) {
-	uuidParam := c.Param("company_uuid")
-	if uuidParam == "" {
-		c.JSON(http.StatusBadRequest, responses.ResponseBadRequest("Data not found", nil))
-		return
-	}
 
-	companyUUID, _ := uuid.Parse(uuidParam)
+	search := &models.JobVacancy{}
 
-	jobVacancy, err := q.GetJobVacancy(&models.JobVacancy{CompanyUUID: companyUUID})
+	jobVacancy, err := q.GetJobVacancy(search)
 	if err != nil {
 		c.JSON(http.StatusNotFound, responses.ResponseBadRequest("Failed to fetch data", err))
 		return

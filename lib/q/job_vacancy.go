@@ -23,9 +23,9 @@ func GetJobVacancyByUUID(uuid string) (*models.JobVacancy, error) {
 	return &data, nil
 }
 
-func GetJobVacancyByCompany(company_uuid string) ([]*models.JobVacancy, error) {
+func GetJobVacancy(search *models.JobVacancy) ([]*models.JobVacancy, error) {
 	var data []*models.JobVacancy
-	res := configs.DB.Preload("Company").Where("company_uuid = ?", company_uuid).Find(&data)
+	res := configs.DB.Preload("Company").Where(search).Find(&data)
 	if res.Error != nil {
 		return nil, fmt.Errorf("failed to get from database: %v", res.Error)
 	}

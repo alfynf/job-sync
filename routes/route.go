@@ -2,6 +2,7 @@ package routes
 
 import (
 	"jobsync-be/controllers"
+	"jobsync-be/controllers/api"
 	"jobsync-be/controllers/company_controllers"
 	"jobsync-be/controllers/employee_controllers"
 	"jobsync-be/controllers/job_vacancy_controllers"
@@ -17,6 +18,8 @@ func New() *gin.Engine {
 	r.GET("/ping", controllers.PingHandler)
 	apiRoute := r.Group("/api")
 	v1Route := apiRoute.Group("/v1")
+
+	v1Route.GET("job-vacancies/:job_vacancy_uuid", api.GetJobDetail)
 
 	userRoute := v1Route.Group("/users")
 	userRoute.POST("/", user_controllers.Create)

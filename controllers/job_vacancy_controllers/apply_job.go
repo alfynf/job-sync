@@ -1,4 +1,4 @@
-package user_controllers
+package job_vacancy_controllers
 
 import (
 	"io"

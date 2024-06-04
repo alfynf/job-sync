@@ -16,7 +16,7 @@ func CreateCompany(company models.Company) error {
 
 func GetCompanyByUUID(uuid string) (*models.Company, error) {
 	var data models.Company
-	res := configs.DB.Preload("Employees.Position").Preload("Employees").Where("uuid = ?", uuid).First(&data)
+	res := configs.DB.Preload("Employees.Position").Preload("Employees").Preload("JobVacancies").Where("uuid = ?", uuid).First(&data)
 	if res.Error != nil {
 		return nil, fmt.Errorf("failed to get from database: %v", res.Error)
 	}

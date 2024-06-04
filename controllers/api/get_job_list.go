@@ -25,7 +25,7 @@ type searchQuery struct {
 	Location int    `form:"location" json:"location"`
 }
 
-func GetList(c *gin.Context) {
+func GetJobList(c *gin.Context) {
 
 	search := &models.JobVacancy{}
 

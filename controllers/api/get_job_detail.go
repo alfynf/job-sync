@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type detailResult struct {
+type detailJobResult struct {
 	UUID            string `json:"uuid"`
 	Title           string `json:"title"`
 	Location        string `json:"location"`
@@ -36,7 +36,7 @@ func GetJobDetail(c *gin.Context) {
 		return
 	}
 
-	res := detailResult{
+	res := detailJobResult{
 		UUID:        jobVacancy.UUID.String(),
 		Title:       jobVacancy.Title,
 		Location:    jobVacancy.Location,
